@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import FadeIn from '../components/FadeIn';
 
+// Direct Image Imports
 import smarthire1 from '../assets/smarthire-1.png';
 import smarthire2 from '../assets/smarthire-2.png';
 import smarthire3 from '../assets/smarthire-3.png';
@@ -47,7 +48,7 @@ const PROJECTS: Project[] = [
     category: 'Fintech / Security & Recovery',
     name: 'RazorRecover AI – Autonomous Recovery Engine',
     projectUrl: 'https://github.com/shreelakshmi680-dot/razor-recover-ai',
-    demoUrl: 'https://youtu.be/5_5FGsbxttk?si=JHHd8adTQeH8GsLX',
+    demoUrl: 'https://youtu.be/5_5FGsbxttk',
     metrics: [
       'HMAC-SHA256 signature verification preventing webhook spoofing/replay attacks',
       '10%/₹500 margin guardrails with immutable SQLite audit logging',
@@ -64,26 +65,47 @@ const PROJECTS: Project[] = [
 
 const TOTAL_CARDS = PROJECTS.length;
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+function ProjectCard({
+  project,
+  index,
+  progress,
+  range,
+  targetScale,
+}: {
+  project: Project;
+  index: number;
+  progress: any;
+  range: [number, number];
+  targetScale: number;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
-    target: cardRef,
+    target: containerRef,
     offset: ['start end', 'start start'],
   });
 
-  const targetScale = 1 - (TOTAL_CARDS - 1 - index) * 0.03;
-  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
+  const cardScale = useTransform(progress, range, [1, targetScale]);
+  const cardTranslateY = useTransform(scrollYProgress, [0, 1], [60, 0]);
 
   return (
     <div
-      ref={cardRef}
-      className="min-h-[90vh] sticky top-16 md:top-24 mb-16"
-      style={{ marginTop: `${index * 32}px` }}
+      ref={containerRef}
+      className="min-h-[85vh] md:min-h-[90vh] sticky flex items-center justify-center"
+      style={{
+        top: `calc(12vh + ${index * 32}px)`,
+        marginBottom: `${(TOTAL_CARDS - index) * 20}px`,
+      }}
     >
       <motion.div
-        style={{ scale }}
-        className="h-full rounded-[36px] sm:rounded-[48px] md:rounded-[56px] border-2 border-white/15 bg-[#0D0E12] p-5 sm:p-7 md:p-9 flex flex-col gap-6 justify-between shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl"
+        style={{
+          scale: cardScale,
+          y: cardTranslateY,
+        }}
+        transition={{ ease: [0.33, 1, 0.68, 1], duration: 0.6 }}
+        className="w-full rounded-[36px] sm:rounded-[48px] md:rounded-[56px] border-2 border-white/15 bg-[#0D0E12] p-5 sm:p-7 md:p-9 flex flex-col gap-6 justify-between shadow-[0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-2xl will-change-transform"
       >
+        {/* Card Header */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4 sm:gap-6">
             <span
@@ -105,24 +127,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             {project.demoUrl && (
               <a
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full text-white font-medium uppercase tracking-widest px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm transition-transform duration-300 hover:scale-[1.03] flex items-center gap-1.5"
-                style={{
-                  background:
-                    'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
-                  boxShadow:
-                    '0px 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721B1 inset',
-                  outline: '2px solid rgba(255,255,255,0.8)',
-                  outlineOffset: '-3px',
-                }}
+                className="rounded-full text-white font-medium uppercase tracking-widest px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm border border-[#B600A8]/50 bg-[#B600A8]/20 hover:bg-[#B600A8]/30 hover:border-[#B600A8] transition-all duration-300 inline-flex items-center gap-2 shadow-[0_0_20px_rgba(182,0,168,0.3)]"
               >
                 <span>Watch Demo</span>
-                <span>↗</span>
+                <span className="text-xs">↗</span>
               </a>
             )}
 
@@ -130,13 +144,23 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               href={project.projectUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full text-white font-medium uppercase tracking-widest px-6 py-2.5 sm:px-8 sm:py-3 text-xs sm:text-sm border border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+              className="rounded-full text-white font-medium uppercase tracking-widest px-6 py-2.5 sm:px-8 sm:py-3 text-xs sm:text-sm transition-transform duration-300 hover:scale-[1.03] inline-flex items-center gap-2"
+              style={{
+                background:
+                  'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
+                boxShadow:
+                  '0px 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721B1 inset',
+                outline: '2px solid rgba(255,255,255,0.8)',
+                outlineOffset: '-3px',
+              }}
             >
-              GitHub Repo
+              <span>GitHub Repo</span>
+              <span className="text-xs">↗</span>
             </a>
           </div>
         </div>
 
+        {/* Deliverables & Stack Breakdown */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#14151B] p-4 sm:p-5 rounded-2xl border border-white/5">
           <div className="flex flex-col gap-2">
             <span className="text-xs uppercase tracking-widest text-[#B600A8] font-bold">
@@ -168,12 +192,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
         </div>
 
+        {/* Framing Container */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {project.images.map((item, i) => (
             <div
               key={i}
               className="flex flex-col rounded-2xl border border-white/10 bg-[#161820] overflow-hidden shadow-lg group hover:border-[#B600A8]/50 transition-all duration-300"
             >
+              {/* Window Header Bar */}
               <div className="flex items-center justify-between px-3 py-2 bg-[#0E1015] border-b border-white/5">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
@@ -185,6 +211,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 </span>
               </div>
 
+              {/* Responsive Image Display */}
               <div className="p-2 sm:p-3 bg-[#0A0B0E] flex items-center justify-center h-48 sm:h-56 md:h-64 overflow-hidden">
                 <img
                   src={item.src}
@@ -202,9 +229,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 export default function ProjectsSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
   return (
     <section
       id="projects"
+      ref={containerRef}
       className="relative bg-[#08080A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 px-5 sm:px-8 md:px-10 pt-20 sm:pt-24 md:pt-28 pb-32"
     >
       <FadeIn delay={0} y={40}>
@@ -216,10 +250,20 @@ export default function ProjectsSection() {
         </h2>
       </FadeIn>
 
-      <div className="max-w-6xl mx-auto flex flex-col pb-16">
-        {PROJECTS.map((project, i) => (
-          <ProjectCard key={project.number} project={project} index={i} />
-        ))}
+      <div className="max-w-6xl mx-auto flex flex-col pb-16 relative">
+        {PROJECTS.map((project, i) => {
+          const targetScale = 1 - (TOTAL_CARDS - 1 - i) * 0.05;
+          return (
+            <ProjectCard
+              key={project.number}
+              project={project}
+              index={i}
+              progress={scrollYProgress}
+              range={[i * 0.45, 1]}
+              targetScale={targetScale}
+            />
+          );
+        })}
       </div>
     </section>
   );
