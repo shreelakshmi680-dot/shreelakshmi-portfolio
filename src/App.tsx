@@ -1,23 +1,20 @@
 import React from 'react';
 import HeroSection from './sections/HeroSection';
-import AboutSection from './sections/AboutSection';
 import MarqueeSection from './sections/MarqueeSection';
-import ProjectsSection from './sections/ProjectsSection';
+import AboutSection from './sections/AboutSection';
 import ServicesSection from './sections/ServicesSection';
-import Footer from './sections/Footer';
+import ProjectsSection from './sections/ProjectsSection';
+import Footer from './sections/footer';
 
 export default function App() {
   return (
-    <div
-      className="min-h-screen relative flex flex-col"
-      style={{ background: '#0C0C0C', overflowX: 'clip' }}
-    >
+    <main className="min-h-screen bg-[#0A0A0C] text-[#D7E2EA] selection:bg-[#B600A8] selection:text-white overflow-x-hidden">
       <HeroSection />
-      <AboutSection />
       <MarqueeSection />
-      <ProjectsSection />
+      <AboutSection />
       <ServicesSection />
+      <ProjectsSection />
       <Footer />
-    </div>
+    </main>
   );
 }
