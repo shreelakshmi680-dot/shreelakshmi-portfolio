@@ -1,7 +1,6 @@
 import React from 'react';
 import FadeIn from '../components/FadeIn';
 import AnimatedText from '../components/AnimatedText';
-import ContactButton from '../components/ContactButton';
 
 const MOON_URL =
   'https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png';
@@ -87,7 +86,7 @@ export default function AboutSection() {
       </FadeIn>
 
       {/* Center content */}
-      <div className="relative z-10 flex flex-col items-center gap-12 sm:gap-16 text-center">
+      <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto">
         <div className="flex flex-col items-center gap-8 sm:gap-10">
           <FadeIn delay={0} y={40}>
             <h2
@@ -104,10 +103,6 @@ export default function AboutSection() {
             style={{ fontSize: 'clamp(1.1rem, 2vw, 1.45rem)' }}
           />
         </div>
-
-        <FadeIn delay={0.1} y={20}>
-          <ContactButton />
-        </FadeIn>
       </div>
     </section>
   );
