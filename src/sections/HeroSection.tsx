@@ -5,6 +5,14 @@ import FadeIn from '../components/FadeIn';
 const NAV_LINKS = ['About', 'Services', 'Projects', 'Contact'];
 
 export default function HeroSection() {
+  const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const email = 'shreelakshmi680@gmail.com';
+    const subject = encodeURIComponent('Engineering Opportunity / Collaboration Inquiry');
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}`;
+    window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <section
       className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#0A0A0C] text-[#D7E2EA] px-6 md:px-16 pt-6 pb-8"
@@ -43,7 +51,8 @@ export default function HeroSection() {
 
             <a
               href="mailto:shreelakshmi680@gmail.com"
-              className="rounded-full text-white font-medium uppercase tracking-widest px-5 py-2 text-xs transition-transform duration-200 hover:scale-[1.04]"
+              onClick={handleEmailClick}
+              className="rounded-full text-white font-medium uppercase tracking-widest px-5 py-2 text-xs transition-transform duration-200 hover:scale-[1.04] cursor-pointer"
               style={{
                 background:
                   'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
@@ -89,7 +98,7 @@ export default function HeroSection() {
                   style={{
                     fontSize: 'clamp(3rem, 9.5vw, 125px)',
                     background:
-                      'linear-gradient(180deg, #FFFFFF 20%, #94A3B8 65%, #334155 100%)',
+                      'linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     textShadow: '0 10px 30px rgba(0,0,0,0.8)',
@@ -102,7 +111,7 @@ export default function HeroSection() {
                   style={{
                     fontSize: 'clamp(3rem, 9.5vw, 125px)',
                     background:
-                      'linear-gradient(180deg, #FFFFFF 20%, #94A3B8 65%, #334155 100%)',
+                      'linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     textShadow: '0 10px 30px rgba(0,0,0,0.8)',
@@ -122,27 +131,27 @@ export default function HeroSection() {
             <FadeIn delay={0.3} y={20}>
               <a
                 href="#projects"
-                className="rounded-full text-white font-medium uppercase tracking-widest px-7 py-3.5 text-xs sm:text-sm border border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all duration-300 inline-block text-center backdrop-blur-md"
+                className="rounded-full text-white font-medium uppercase tracking-widest px-7 py-3.5 text-xs sm:text-sm border border-white/20 bg-white/5 hover:bg-[#B600A8]/10 hover:border-[#B600A8]/60 hover:shadow-[0_0_25px_rgba(182,0,168,0.35)] transition-all duration-300 inline-block text-center backdrop-blur-md"
               >
                 View Projects ↓
               </a>
             </FadeIn>
           </div>
 
-          {/* Right Column: Crisp, Clear Frame */}
+          {/* Right Column: Crisp, Clear Frame with Ambient Glow */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end pr-0 lg:pr-4">
             <FadeIn delay={0.2} y={30}>
               <div className="relative group flex items-center justify-center">
                 
-                {/* Thin 1px Cyber Border Frame */}
-                <div className="relative rounded-[28px] p-[1px] bg-gradient-to-b from-white/30 via-[#B600A8]/40 to-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.9)]">
+                {/* Thin 1px Cyber Border Frame + Ambient Neon Shadow */}
+                <div className="relative rounded-[28px] p-[1px] bg-gradient-to-b from-white/40 via-[#B600A8]/50 to-white/10 shadow-[0_10px_40px_rgba(182,0,168,0.25),0_20px_50px_rgba(0,0,0,0.9)] transition-all duration-300 group-hover:shadow-[0_10px_50px_rgba(182,0,168,0.4)]">
                   
-                  {/* Clean Photo Container - No overlay fades */}
+                  {/* Photo Container */}
                   <div className="w-64 sm:w-72 md:w-80 h-80 sm:h-92 md:h-[370px] rounded-[27px] overflow-hidden bg-[#0A0A0C]">
                     <img
                       src={profilePhoto}
                       alt="Shree Lakshmi"
-                      className="w-full h-full object-cover object-top block"
+                      className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-[1.01]"
                     />
                   </div>
                 </div>

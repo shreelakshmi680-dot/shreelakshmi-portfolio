@@ -1,73 +1,109 @@
 import React, { useState } from 'react';
 
 interface ContactButtonProps {
+  label?: string;
   className?: string;
 }
 
-export default function ContactButton({ className = '' }: ContactButtonProps) {
-  const [status, setStatus] = useState<'idle' | 'copied'>('idle');
+export default function ContactButton({
+  label = 'Email Me',
+  className = '',
+}: ContactButtonProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   const email = 'shreelakshmi680@gmail.com';
+  const subject = encodeURIComponent('Opportunity / Collaboration Inquiry');
 
-  const handleEmailAction = () => {
-    // 1. Copy email to clipboard
+  const copyToClipboard = () => {
     navigator.clipboard.writeText(email);
-    setStatus('copied');
-    setTimeout(() => setStatus('idle'), 3000);
-
-    // 2. Open Gmail composer in a new tab
-    window.open(
-      `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`,
-      '_blank',
-      'noopener,noreferrer'
-    );
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
+  const providers = [
+    {
+      name: 'Open in Gmail',
+      url: `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}`,
+      bg: 'bg-red-500/20 hover:bg-red-500/30 text-red-300 border-red-500/40',
+    },
+    {
+      name: 'Open in Outlook',
+      url: `https://outlook.live.com/mail/0/deeplink/compose?to=${email}&subject=${subject}`,
+      bg: 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border-blue-500/40',
+    },
+    {
+      name: 'Default Mail Client (mailto)',
+      url: `mailto:${email}?subject=${subject}`,
+      bg: 'bg-white/5 hover:bg-white/10 text-white/80 border-white/10',
+    },
+  ];
+
   return (
-    <div className={`flex flex-col items-center gap-3 ${className}`}>
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        {/* Active Email Button */}
-        <button
-          type="button"
-          onClick={handleEmailAction}
-          className="rounded-full text-white font-medium uppercase tracking-widest px-7 py-3 sm:px-9 sm:py-3.5 md:px-10 md:py-4 text-xs sm:text-sm md:text-base transition-transform duration-300 hover:scale-[1.03] cursor-pointer"
-          style={{
-            background:
-              'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
-            boxShadow:
-              '0px 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721B1 inset',
-            outline: '2px solid white',
-            outlineOffset: '-3px',
-          }}
-        >
-          {status === 'copied' ? 'Opening & Copied!' : 'Email Me'}
-        </button>
+    <>
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        className={`rounded-full text-white font-medium uppercase tracking-widest px-6 py-2.5 sm:px-8 sm:py-3 text-xs sm:text-sm border border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/40 transition-all duration-300 inline-flex items-center gap-2 cursor-pointer ${className}`}
+        style={{
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+        }}
+      >
+        <span>{label}</span>
+        <span className="text-xs">↗</span>
+      </button>
 
-        {/* GitHub Profile Button */}
-        <a
-          href="https://github.com/shreelakshmi680-dot"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-full text-white font-medium uppercase tracking-widest px-7 py-3 sm:px-9 sm:py-3.5 md:px-10 md:py-4 text-xs sm:text-sm md:text-base transition-transform duration-300 hover:scale-[1.03] text-center inline-block"
-          style={{
-            background: 'rgba(255, 255, 255, 0.08)',
-            border: '1.5px solid rgba(255, 255, 255, 0.6)',
-            backdropFilter: 'blur(8px)',
-          }}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          onClick={() => setIsOpen(false)}
         >
-          GitHub Profile
-        </a>
-      </div>
+          <div
+            className="w-full max-w-md rounded-3xl border border-white/15 bg-[#0D0E12] p-6 shadow-2xl flex flex-col gap-5 text-left"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <h3 className="text-lg font-bold text-[#D7E2EA]">Get in Touch</h3>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="text-white/50 hover:text-white text-xl leading-none px-2"
+              >
+                ✕
+              </button>
+            </div>
 
-      {/* Direct visual confirmation text */}
-      <span className="text-xs text-[#D7E2EA]/70 tracking-wide select-all">
-        {status === 'copied' ? (
-          <span className="text-green-400 font-semibold">
-            ✓ Copied {email} to clipboard!
-          </span>
-        ) : (
-          <span>{email}</span>
-        )}
-      </span>
-    </div>
+            <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+              <span className="text-xs sm:text-sm font-mono text-[#D7E2EA]/90 truncate">
+                {email}
+              </span>
+              <button
+                type="button"
+                onClick={copyToClipboard}
+                className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#B600A8] hover:bg-[#8e0283] text-white transition-colors"
+              >
+                {copied ? 'Copied! ✓' : 'Copy'}
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              {providers.map((p, idx) => (
+                <a
+                  key={idx}
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsOpen(false)}
+                  className={`w-full py-3 px-4 rounded-xl border text-xs sm:text-sm font-medium flex items-center justify-between transition-colors ${p.bg}`}
+                >
+                  <span>{p.name}</span>
+                  <span>↗</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
