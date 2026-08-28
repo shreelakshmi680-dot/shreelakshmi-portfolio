@@ -15,12 +15,15 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#0A0A0C] text-[#D7E2EA] px-6 md:px-16 pt-6 pb-8"
-      style={{ overflowX: 'clip' }}
+      className="relative min-h-screen flex flex-col justify-between bg-[#0A0A0C] text-[#D7E2EA] px-6 md:px-16 pt-6 pb-8 overflow-hidden"
     >
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/4 left-[-10%] w-[550px] h-[550px] bg-[#7621B0]/15 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-[-5%] w-[650px] h-[650px] bg-[#B600A8]/15 rounded-full blur-[160px] pointer-events-none" />
+      {/* Background Ambient Glows - Mobile Safe */}
+      <div 
+        className="absolute top-1/4 left-[-10%] w-[300px] sm:w-[550px] h-[300px] sm:h-[550px] bg-[#7621B0]/20 rounded-full blur-[60px] sm:blur-[140px] pointer-events-none transform-gpu" 
+      />
+      <div 
+        className="absolute bottom-10 right-[-5%] w-[300px] sm:w-[650px] h-[300px] sm:h-[650px] bg-[#B600A8]/20 rounded-full blur-[60px] sm:blur-[160px] pointer-events-none transform-gpu" 
+      />
 
       {/* Top Navbar */}
       <FadeIn delay={0} y={-20}>
@@ -138,24 +141,19 @@ export default function HeroSection() {
             </FadeIn>
           </div>
 
-          {/* Right Column: Crisp, Clear Frame with Ambient Glow */}
+          {/* Right Column: Crisp, Clear Frame */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end pr-0 lg:pr-4">
             <FadeIn delay={0.2} y={30}>
               <div className="relative group flex items-center justify-center">
-                
-                {/* Thin 1px Cyber Border Frame + Ambient Neon Shadow */}
-                <div className="relative rounded-[28px] p-[1px] bg-gradient-to-b from-white/40 via-[#B600A8]/50 to-white/10 shadow-[0_10px_40px_rgba(182,0,168,0.25),0_20px_50px_rgba(0,0,0,0.9)] transition-all duration-300 group-hover:shadow-[0_10px_50px_rgba(182,0,168,0.4)]">
-                  
-                  {/* Photo Container */}
+                <div className="relative rounded-[28px] p-[1px] bg-gradient-to-b from-white/40 via-[#B600A8]/50 to-white/10 shadow-[0_10px_40px_rgba(182,0,168,0.25),0_20px_50px_rgba(0,0,0,0.9)] transition-all duration-300">
                   <div className="w-64 sm:w-72 md:w-80 h-80 sm:h-92 md:h-[370px] rounded-[27px] overflow-hidden bg-[#0A0A0C]">
                     <img
                       src={profilePhoto}
                       alt="Shree Lakshmi"
-                      className="w-full h-full object-cover object-top block transition-transform duration-500 group-hover:scale-[1.01]"
+                      className="w-full h-full object-cover object-top block"
                     />
                   </div>
                 </div>
-
               </div>
             </FadeIn>
           </div>
