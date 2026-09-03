@@ -30,7 +30,7 @@ const PROJECTS: Project[] = [
     number: '01',
     category: 'NLP & ML / Python & Flask',
     name: 'SmartHire – AI Resume Screening System',
-    projectUrl: 'https://github.com/shreelakshmi680-dot',
+    projectUrl: 'https://github.com/shreelakshmi680-dot/smart-hire',
     metrics: [
       '85%+ matching accuracy using TF-IDF & cosine similarity scoring',
       '70% reduction in manual screening time (~2s per resume processing)',
