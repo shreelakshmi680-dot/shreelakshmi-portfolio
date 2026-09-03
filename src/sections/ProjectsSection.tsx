@@ -61,6 +61,23 @@ const PROJECTS: Project[] = [
       { src: razor3, caption: 'Immutable Audit Ledger' },
     ],
   },
+  {
+    number: '03',
+    category: 'Backend Engineering & Distributed Systems',
+    name: 'FinGuard – Production Payment Recovery API',
+    projectUrl: 'https://github.com/shreelakshmi680-dot/finguard',
+    metrics: [
+      'Production FastAPI backend enforcing cryptographic HMAC-SHA256 webhook integrity',
+      'PostgreSQL schema design with idempotent transaction state machines and audit trails',
+      'Adversarial test suite validating edge-case resilience and zero-drop recovery workflows',
+    ],
+    techStack: ['Python', 'FastAPI', 'PostgreSQL', 'Docker', 'HMAC-SHA256', 'Uvicorn'],
+    images: [
+      { src: razor2, caption: 'HMAC Webhook Ingestion Engine' },
+      { src: razor1, caption: 'Idempotent State Management' },
+      { src: razor3, caption: 'PostgreSQL Audit Ledger' },
+    ],
+  },
 ];
 
 const TOTAL_CARDS = PROJECTS.length;
@@ -259,7 +276,7 @@ export default function ProjectsSection() {
               project={project}
               index={i}
               progress={scrollYProgress}
-              range={[i * 0.45, 1]}
+              range={[i * 0.3, 1]}
               targetScale={targetScale}
             />
           );
